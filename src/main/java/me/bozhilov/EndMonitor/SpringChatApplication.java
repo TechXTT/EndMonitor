@@ -1,4 +1,4 @@
-package me.bozhilov.springchat;
+package me.bozhilov.EndMonitor;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

@@ -1,23 +1,18 @@
-package me.bozhilov.springchat.model;
+package me.bozhilov.EndMonitor.model;
 
 import jakarta.persistence.*;
 
 @Entity
-@Table(name = "endpoint_tests")
-public class EndpointTest {
+@Table(name = "logs")
+public class Log {
     
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false)
-    private String name;
-
-    private String description;
-
     @ManyToOne
-    @JoinColumn(name = "endpoint_id", referencedColumnName = "id")
-    private Endpoint endpoint;
+    @JoinColumn(name = "endpoint_test_id", referencedColumnName = "id")
+    private EndpointTest endpointTest;
 
     private String requestBody;
 

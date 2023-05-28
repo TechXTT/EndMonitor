@@ -1,4 +1,4 @@
-package me.bozhilov.springchat.model;
+package me.bozhilov.EndMonitor.model;
 
 import org.springframework.http.HttpMethod;
 
