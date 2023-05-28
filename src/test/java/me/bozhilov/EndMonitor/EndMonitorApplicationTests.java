@@ -1,10 +1,10 @@
-package me.bozhilov.springchat;
+package me.bozhilov.EndMonitor;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
-class SpringChatApplicationTests {
+class EndMonitorApplicationTests {
 
 	@Test
 	void contextLoads() {
