@@ -5,7 +5,7 @@ import jakarta.persistence.*;
 @Entity
 @Table(name = "endpoint_tests")
 public class EndpointTest {
-    
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;

@@ -16,5 +16,25 @@ public class Company {
     private String description;
 
     @OneToMany(mappedBy = "company")
-    private List<User> users;  
+    private List<User> users;
+
+    public String getName() {
+        return name;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
 }

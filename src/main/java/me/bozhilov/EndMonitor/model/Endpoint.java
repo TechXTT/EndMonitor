@@ -1,7 +1,5 @@
 package me.bozhilov.EndMonitor.model;
 
-import org.springframework.http.HttpMethod;
-
 import jakarta.persistence.*;
 
 @Entity
@@ -22,5 +20,5 @@ public class Endpoint {
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
-    private HttpMethod method;
+    private HttpMethod httpMethod;
 }
