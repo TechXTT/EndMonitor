@@ -1,6 +1,7 @@
 package me.bozhilov.EndMonitor.service;
 
 import java.util.List;
+import java.util.Optional;
 
 import me.bozhilov.EndMonitor.controller.resources.LogResource;
 import me.bozhilov.EndMonitor.model.Log;

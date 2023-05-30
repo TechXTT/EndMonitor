@@ -3,39 +3,17 @@ package me.bozhilov.EndMonitor.service;
 import java.util.List;
 import java.util.Optional;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
 import me.bozhilov.EndMonitor.model.Company;
-import me.bozhilov.EndMonitor.repository.CompanyRepository;
 
-@Service
-public class CompanyService {
+public interface CompanyService {
 
-    @Autowired
-    private CompanyRepository companyRepository;
+    List<Company> findAll();
 
-    public CompanyService(CompanyRepository companyRepository) {
-        this.companyRepository = companyRepository;
-    }
+    Optional<Company> findById(Long id);
 
-    public List<Company> findAll() {
-        return companyRepository.findAll();
-    }
+    Optional<Company> findByName(String name);
 
-    public Company findById(Long id) {
-        return companyRepository.findById(id).orElse(null);
-    }
+    Company save(Company company);
 
-    public Company save(Company company) {
-        return companyRepository.save(company);
-    }
-
-    public void deleteById(Long id) {
-        companyRepository.deleteById(id);
-    }
-
-    public Optional<Company> findByName(String name) {
-        return companyRepository.findByName(name);
-    }
-
+    void deleteById(Long id);
 }
