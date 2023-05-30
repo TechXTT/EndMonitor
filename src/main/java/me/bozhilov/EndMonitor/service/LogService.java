@@ -2,36 +2,15 @@ package me.bozhilov.EndMonitor.service;
 
 import java.util.List;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-
-import me.bozhilov.EndMonitor.repository.LogRepository;
+import me.bozhilov.EndMonitor.controller.resources.LogResource;
 import me.bozhilov.EndMonitor.model.Log;
 
-@Service
-public class LogService {
+public interface LogService {
 
-    @Autowired
-    private LogRepository logRepository;
+    List<LogResource> findAll();
 
-    public LogService(LogRepository logRepository) {
-        this.logRepository = logRepository;
-    }
+    Optional<LogResource> findById(Long id);
 
-    public List<Log> findAll() {
-        return logRepository.findAll();
-    }
-
-    public Log findById(Long id) {
-        return logRepository.findById(id).orElse(null);
-    }
-
-    public Log save(Log log) {
-        return logRepository.save(log);
-    }
-
-    public void deleteById(Long id) {
-        logRepository.deleteById(id);
-    }
+    Log save(LogResource logResource);
 
 }

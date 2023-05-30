@@ -2,36 +2,15 @@ package me.bozhilov.EndMonitor.service;
 
 import java.util.List;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-
-import me.bozhilov.EndMonitor.repository.EndpointRepository;
+import me.bozhilov.EndMonitor.controller.resources.EndpointResource;
 import me.bozhilov.EndMonitor.model.Endpoint;
 
-@Service
-public class EndpointService {
+public interface EndpointService {
 
-    @Autowired
-    private EndpointRepository endpointRepository;
+    List<EndpointResource> findAll();
 
-    public EndpointService(EndpointRepository endpointRepository) {
-        this.endpointRepository = endpointRepository;
-    }
+    Optional<EndpointResource> findById(Long id);
 
-    public List<Endpoint> findAll() {
-        return endpointRepository.findAll();
-    }
-
-    public Endpoint findById(Long id) {
-        return endpointRepository.findById(id).orElse(null);
-    }
-
-    public Endpoint save(Endpoint endpoint) {
-        return endpointRepository.save(endpoint);
-    }
-
-    public void deleteById(Long id) {
-        endpointRepository.deleteById(id);
-    }
+    Endpoint save(EndpointResource endpointResource);
 
 }
