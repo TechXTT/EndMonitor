@@ -14,7 +14,6 @@ import jakarta.persistence.EntityManager;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 
-import me.bozhilov.EndMonitor.model.API;
 import me.bozhilov.EndMonitor.model.Endpoint;
 import me.bozhilov.EndMonitor.model.EndpointTest;
 import me.bozhilov.EndMonitor.service.EndpointTestService;
@@ -28,7 +27,7 @@ public class EndpointTestController {
     @Autowired
     private EntityManager entityManager;
 
-    @GetMapping("/endpointTests")
+    @GetMapping("/endpointtests")
     public ResponseEntity<List<EndpointTest>> getAllEndpointTests() {
         List<EndpointTest> endpointTests = endpointTestService.findAll();
         if (endpointTests.isEmpty()) {
@@ -38,7 +37,7 @@ public class EndpointTestController {
         }
     }
 
-    @GetMapping("/endpointTest/{id}")
+    @GetMapping("/endpointtest/{id}")
     public ResponseEntity<EndpointTest> getEndpointTestById(@PathVariable Long id) {
         Optional<EndpointTest> endpointTest = Optional.ofNullable(endpointTestService.findById(id));
         if (endpointTest.isPresent()) {
@@ -48,7 +47,7 @@ public class EndpointTestController {
         }
     }
 
-    @PostMapping(value = "/endpointTest", consumes = "application/json", produces = "application/json")
+    @PostMapping(value = "/endpointtest", consumes = "application/json", produces = "application/json")
     public EndpointTest createEndpointTest(@RequestBody EndpointTest endpointTest) {
 
         Endpoint endpoint = entityManager.getReference(Endpoint.class, endpointTest.getEndpoint().getId());
@@ -57,7 +56,7 @@ public class EndpointTestController {
         return endpointTestService.save(endpointTest);
     }
 
-    @PostMapping(value = "/endpointTest/{id}", consumes = "application/json", produces = "application/json")
+    @PostMapping(value = "/endpointtest/{id}", consumes = "application/json", produces = "application/json")
     public ResponseEntity<EndpointTest> updateEndpointTest(@RequestBody EndpointTest endpointTest,
             @PathVariable Long id) {
         Optional<EndpointTest> endpointTestOptional = Optional.ofNullable(endpointTestService.findById(id));
