@@ -1,8 +1,13 @@
 package me.bozhilov.EndMonitor.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
+import java.util.List;
 import jakarta.persistence.*;
+import lombok.Data;
 
 @Entity
+@Data
 @Table(name = "endpoints")
 public class Endpoint {
     @Id
@@ -16,46 +21,14 @@ public class Endpoint {
 
     @ManyToOne
     @JoinColumn(name = "api_id", referencedColumnName = "id")
+    @JsonIgnoreProperties({ "hibernateLazyInitializer", "handler" })
     private API api;
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     private HttpMethod httpMethod;
 
-    public Long getId() {
-        return id;
-    }
-
-    public String getUrl() {
-        return url;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public API getApi() {
-        return api;
-    }
-
-    public HttpMethod getHttpMethod() {
-        return httpMethod;
-    }
-
-    public void setUrl(String url) {
-        this.url = url;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
-    public void setApi(API api) {
-        this.api = api;
-    }
-
-    public void setHttpMethod(HttpMethod httpMethod) {
-        this.httpMethod = httpMethod;
-    }
+    @OneToMany(mappedBy = "endpoint")
+    private List<EndpointTest> endpointTests;
 
 }

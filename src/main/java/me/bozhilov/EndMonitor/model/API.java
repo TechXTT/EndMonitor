@@ -5,8 +5,10 @@ import java.util.List;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import jakarta.persistence.*;
+import lombok.Data;
 
 @Entity
+@Data
 @Table(name = "apis")
 public class API {
 
@@ -27,40 +29,4 @@ public class API {
 
     @OneToMany(mappedBy = "api")
     private List<Endpoint> endpoints;
-
-    public Long getId() {
-        return id;
-    }
-
-    public String getRoute() {
-        return route;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public Company getCompany() {
-        return company;
-    }
-
-    public List<Endpoint> getEndpoints() {
-        return endpoints;
-    }
-
-    public void setRoute(String route) {
-        this.route = route;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
-    public void setCompany(Company company) {
-        this.company = company;
-    }
-
-    public void setEndpoints(List<Endpoint> endpoints) {
-        this.endpoints = endpoints;
-    }
 }
