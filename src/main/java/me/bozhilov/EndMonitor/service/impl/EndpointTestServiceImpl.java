@@ -45,4 +45,23 @@ public class EndpointTestServiceImpl implements EndpointTestService {
                         });
         return endpointTestRepository.save(endpointTest);
     }
+
+    @Override
+    public EndpointTest update(EndpointTestResource endpointTestResource, Long id) {
+        EndpointTest endpointTest = endpointTestMapper.fromEndpointTestResource(endpointTestResource);
+        endpointTest.setId(id);
+        endpointService.findById(endpointTest.getEndpoint().getId())
+                .ifPresentOrElse(
+                        endpoint -> endpointTest.setEndpoint(endpointMapper.fromEndpointResource(endpoint)),
+                        () -> {
+                            throw new EntityNotFoundException(
+                                    "Endpoint with id " + endpointTest.getEndpoint().getId() + " not found");
+                        });
+        return endpointTestRepository.save(endpointTest);
+    }
+
+    @Override
+    public void deleteById(Long id) {
+        endpointTestRepository.deleteById(id);
+    }
 }

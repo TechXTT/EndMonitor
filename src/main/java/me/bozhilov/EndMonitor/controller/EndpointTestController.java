@@ -3,18 +3,17 @@ package me.bozhilov.EndMonitor.controller;
 import java.util.List;
 import java.util.Optional;
 
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import jakarta.persistence.EntityManager;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 
-import me.bozhilov.EndMonitor.model.Endpoint;
+import me.bozhilov.EndMonitor.controller.resources.EndpointTestResource;
 import me.bozhilov.EndMonitor.model.EndpointTest;
 import me.bozhilov.EndMonitor.service.EndpointTestService;
 
@@ -24,12 +23,9 @@ public class EndpointTestController {
     @Autowired
     private EndpointTestService endpointTestService;
 
-    @Autowired
-    private EntityManager entityManager;
-
     @GetMapping("/endpointtests")
-    public ResponseEntity<List<EndpointTest>> getAllEndpointTests() {
-        List<EndpointTest> endpointTests = endpointTestService.findAll();
+    public ResponseEntity<List<EndpointTestResource>> getAllEndpointTests() {
+        List<EndpointTestResource> endpointTests = endpointTestService.findAll();
         if (endpointTests.isEmpty()) {
             return ResponseEntity.notFound().build();
         } else {
@@ -38,8 +34,8 @@ public class EndpointTestController {
     }
 
     @GetMapping("/endpointtest/{id}")
-    public ResponseEntity<EndpointTest> getEndpointTestById(@PathVariable Long id) {
-        Optional<EndpointTest> endpointTest = Optional.ofNullable(endpointTestService.findById(id));
+    public ResponseEntity<EndpointTestResource> getEndpointTestById(@PathVariable Long id) {
+        Optional<EndpointTestResource> endpointTest = endpointTestService.findById(id);
         if (endpointTest.isPresent()) {
             return ResponseEntity.ok(endpointTest.get());
         } else {
@@ -48,28 +44,33 @@ public class EndpointTestController {
     }
 
     @PostMapping(value = "/endpointtest", consumes = "application/json", produces = "application/json")
-    public EndpointTest createEndpointTest(@RequestBody EndpointTest endpointTest) {
-
-        Endpoint endpoint = entityManager.getReference(Endpoint.class, endpointTest.getEndpoint().getId());
-        endpointTest.setEndpoint(endpoint);
-
-        return endpointTestService.save(endpointTest);
+    public ResponseEntity<EndpointTest> createEndpointTest(@RequestBody EndpointTestResource endpointTestResource) {
+        EndpointTest endpointTest = endpointTestService.save(endpointTestResource);
+        if (endpointTest != null) {
+            return ResponseEntity.ok(endpointTest);
+        } else {
+            return ResponseEntity.notFound().build();
+        }
     }
 
     @PostMapping(value = "/endpointtest/{id}", consumes = "application/json", produces = "application/json")
-    public ResponseEntity<EndpointTest> updateEndpointTest(@RequestBody EndpointTest endpointTest,
+    public ResponseEntity<EndpointTest> updateEndpointTest(@RequestBody EndpointTestResource endpointTestResource,
             @PathVariable Long id) {
-        Optional<EndpointTest> endpointTestOptional = Optional.ofNullable(endpointTestService.findById(id));
-        if (endpointTestOptional.isPresent()) {
-            EndpointTest endpointTestToUpdate = endpointTestOptional.get();
-            endpointTestToUpdate.setEndpoint(endpointTest.getEndpoint());
-            endpointTestToUpdate.setRequestBody(endpointTest.getRequestBody());
-            endpointTestToUpdate.setRequestHeaders(endpointTest.getRequestHeaders());
-            endpointTestToUpdate.setRequestParams(endpointTest.getRequestParams());
-            endpointTestToUpdate.setResponseHeaders(endpointTest.getResponseHeaders());
-            endpointTestToUpdate.setResponseBody(endpointTest.getResponseBody());
-            endpointTestService.save(endpointTestToUpdate);
-            return ResponseEntity.ok(endpointTestToUpdate);
+        // pass EndpointTestResource and id to update method
+        EndpointTest endpointTest = endpointTestService.update(endpointTestResource, id);
+        if (endpointTest != null) {
+            return ResponseEntity.ok(endpointTest);
+        } else {
+            return ResponseEntity.notFound().build();
+        }
+    }
+
+    @DeleteMapping("/endpointtest/{id}")
+    public ResponseEntity<EndpointTest> deleteEndpointTest(@PathVariable Long id) {
+        Optional<EndpointTestResource> endpointTest = endpointTestService.findById(id);
+        if (endpointTest.isPresent()) {
+            endpointTestService.deleteById(id);
+            return ResponseEntity.ok().build();
         } else {
             return ResponseEntity.notFound().build();
         }

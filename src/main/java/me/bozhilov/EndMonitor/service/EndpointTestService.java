@@ -14,4 +14,8 @@ public interface EndpointTestService {
 
     EndpointTest save(EndpointTestResource endpointTestResource);
 
+    EndpointTest update(EndpointTestResource endpointTestResource, Long id);
+
+    void deleteById(Long id);
+
 }

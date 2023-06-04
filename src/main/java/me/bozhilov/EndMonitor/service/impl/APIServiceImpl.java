@@ -46,4 +46,16 @@ public class APIServiceImpl implements APIService {
         return apiRepository.save(api);
     }
 
+    @Override
+    public API update(APIResource apiResource, Long id) {
+        API api = apiMapper.fromAPIResource(apiResource);
+        api.setId(id);
+        return apiRepository.save(api);
+    }
+
+    @Override
+    public void deleteById(Long id) {
+        apiRepository.deleteById(id);
+    }
+
 }

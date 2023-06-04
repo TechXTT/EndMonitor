@@ -41,6 +41,13 @@ public class CompanyServiceImpl implements CompanyService {
     }
 
     @Override
+    public Company update(CompanyResource companyResource, Long id) {
+        Company company = companyMapper.fromCompanyResource(companyResource);
+        company.setId(id);
+        return companyRepository.save(company);
+    }
+
+    @Override
     public void deleteById(Long id) {
         companyRepository.deleteById(id);
     }

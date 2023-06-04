@@ -14,4 +14,8 @@ public interface APIService {
 
     API save(APIResource apiResource);
 
+    API update(APIResource apiResource, Long id);
+
+    void deleteById(Long id);
+
 }

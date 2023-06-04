@@ -12,10 +12,9 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import jakarta.persistence.EntityManager;
 import me.bozhilov.EndMonitor.service.EndpointService;
-import me.bozhilov.EndMonitor.model.API;
 import me.bozhilov.EndMonitor.model.Endpoint;
+import me.bozhilov.EndMonitor.controller.resources.EndpointResource;
 
 @RestController
 public class EndpointController {
@@ -23,12 +22,9 @@ public class EndpointController {
     @Autowired
     private EndpointService endpointService;
 
-    @Autowired
-    private EntityManager entityManager;
-
     @GetMapping("/endpoints")
-    public ResponseEntity<List<Endpoint>> getAllEndpoints() {
-        List<Endpoint> endpoints = endpointService.findAll();
+    public ResponseEntity<List<EndpointResource>> getAllEndpoints() {
+        List<EndpointResource> endpoints = endpointService.findAll();
         if (endpoints.isEmpty()) {
             return ResponseEntity.notFound().build();
         } else {
@@ -37,8 +33,8 @@ public class EndpointController {
     }
 
     @GetMapping("/endpoint/{id}")
-    public ResponseEntity<Endpoint> getEndpointById(@PathVariable Long id) {
-        Optional<Endpoint> endpoint = Optional.ofNullable(endpointService.findById(id));
+    public ResponseEntity<EndpointResource> getEndpointById(@PathVariable Long id) {
+        Optional<EndpointResource> endpoint = endpointService.findById(id);
         if (endpoint.isPresent()) {
             return ResponseEntity.ok(endpoint.get());
         } else {
@@ -47,23 +43,22 @@ public class EndpointController {
     }
 
     @PostMapping(value = "/endpoint", consumes = "application/json", produces = "application/json")
-    public Endpoint createEndpoint(@RequestBody Endpoint endpoint) {
-
-        API api = entityManager.getReference(API.class, endpoint.getApi().getId());
-        endpoint.setApi(api);
-
-        return endpointService.save(endpoint);
+    public ResponseEntity<Endpoint> createEndpoint(@RequestBody EndpointResource endpointResource) {
+        Endpoint endpoint = endpointService.save(endpointResource);
+        if (endpoint != null) {
+            return ResponseEntity.ok(endpoint);
+        } else {
+            return ResponseEntity.notFound().build();
+        }
     }
 
     @PostMapping(value = "/endpoint/{id}", consumes = "application/json", produces = "application/json")
-    public ResponseEntity<Endpoint> updateEndpoint(@RequestBody Endpoint endpoint, @PathVariable Long id) {
-        Optional<Endpoint> endpointOptional = Optional.ofNullable(endpointService.findById(id));
-        if (endpointOptional.isPresent()) {
-            endpointOptional.get().setUrl(endpoint.getUrl());
-            endpointOptional.get().setHttpMethod(endpoint.getHttpMethod());
-            endpointOptional.get().setApi(endpoint.getApi());
-            endpointService.save(endpointOptional.get());
-            return ResponseEntity.ok(endpointOptional.get());
+    public ResponseEntity<Endpoint> updateEndpoint(@RequestBody EndpointResource endpointResource,
+            @PathVariable Long id) {
+        // pass EndpointResource and id to update method
+        Endpoint endpoint = endpointService.update(endpointResource, id);
+        if (endpoint != null) {
+            return ResponseEntity.ok(endpoint);
         } else {
             return ResponseEntity.notFound().build();
         }
@@ -71,10 +66,10 @@ public class EndpointController {
 
     @DeleteMapping("/endpoint/{id}")
     public ResponseEntity<Endpoint> deleteEndpoint(@PathVariable Long id) {
-        Optional<Endpoint> endpoint = Optional.ofNullable(endpointService.findById(id));
+        Optional<EndpointResource> endpoint = endpointService.findById(id);
         if (endpoint.isPresent()) {
             endpointService.deleteById(id);
-            return ResponseEntity.ok(endpoint.get());
+            return ResponseEntity.ok().build();
         } else {
             return ResponseEntity.notFound().build();
         }

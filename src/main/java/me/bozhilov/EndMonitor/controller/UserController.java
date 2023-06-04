@@ -1,10 +1,10 @@
 package me.bozhilov.EndMonitor.controller;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.crypto.bcrypt.BCrypt;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -12,9 +12,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import jakarta.persistence.EntityManager;
-import me.bozhilov.EndMonitor.model.Company;
 import me.bozhilov.EndMonitor.model.User;
+import me.bozhilov.EndMonitor.controller.resources.UserResource;
 import me.bozhilov.EndMonitor.service.UserService;
 
 @RestController
@@ -23,12 +22,9 @@ public class UserController {
     @Autowired
     private UserService userService;
 
-    @Autowired
-    private EntityManager entityManager;
-
     @GetMapping("/users")
-    public ResponseEntity<List<User>> getAllUsers() {
-        List<User> users = userService.findAll();
+    public ResponseEntity<List<UserResource>> getAllUsers() {
+        List<UserResource> users = userService.findAll();
         if (users.isEmpty()) {
             return ResponseEntity.notFound().build();
         } else {
@@ -37,35 +33,20 @@ public class UserController {
     }
 
     @GetMapping("/user/{id}")
-    public ResponseEntity<User> getUserById(@PathVariable Long id) {
-        User user = userService.findById(id);
-        if (user != null) {
-            return ResponseEntity.ok(user);
+    public ResponseEntity<UserResource> getUserById(@PathVariable Long id) {
+        Optional<UserResource> userResource = userService.findById(id);
+        if (userResource != null) {
+            return ResponseEntity.ok(userResource.get());
         } else {
             return ResponseEntity.notFound().build();
         }
     }
 
-    @PostMapping(value = "/user", consumes = "application/json", produces = "application/json")
-    public User createUser(@RequestBody User user) {
-
-        String hashedPassword = BCrypt.hashpw(user.getPassword(), BCrypt.gensalt());
-        user.setPassword(hashedPassword);
-
-        Company company = entityManager.getReference(Company.class, user.getCompany().getId());
-        user.setCompany(company);
-
-        return userService.save(user);
-    }
-
-    @PostMapping(value = "/user/{id}", consumes = "application/json", produces = "application/json")
-    public ResponseEntity<User> updateUser(@RequestBody User user, @PathVariable Long id) {
-        User userOptional = userService.findById(id);
-        if (userOptional != null) {
-            userOptional.setUsername(user.getUsername());
-            userOptional.setEmail(user.getEmail());
-            userService.save(userOptional);
-            return ResponseEntity.ok(userOptional);
+    @PostMapping("/user")
+    public ResponseEntity<User> createUser(@RequestBody UserResource userResource) {
+        User user = userService.save(userResource);
+        if (user != null) {
+            return ResponseEntity.ok(user);
         } else {
             return ResponseEntity.notFound().build();
         }
@@ -73,12 +54,62 @@ public class UserController {
 
     @DeleteMapping("/user/{id}")
     public ResponseEntity<User> deleteUser(@PathVariable Long id) {
-        User user = userService.findById(id);
-        if (user != null) {
+        Optional<UserResource> userResource = userService.findById(id);
+        if (userResource != null) {
             userService.deleteById(id);
-            return ResponseEntity.ok(user);
+            return ResponseEntity.ok().build();
         } else {
             return ResponseEntity.notFound().build();
         }
     }
+
+    // @PostMapping("/user/login")
+    // public ResponseEntity<User> loginUser(@RequestBody UserResource userResource)
+    // {
+    // User user = userService.findByUsername(userResource.getUsername());
+    // if (user != null) {
+    // if (BCrypt.checkpw(userResource.getPassword(), user.getPassword())) {
+    // return ResponseEntity.ok(user);
+    // } else {
+    // return ResponseEntity.notFound().build();
+    // }
+    // } else {
+    // return ResponseEntity.notFound().build();
+    // }
+    // }
+
+    // @PostMapping("/user/register")
+    // public ResponseEntity<User> registerUser(@RequestBody UserResource
+    // userResource) {
+    // User user = userService.findByUsername(userResource.getUsername());
+    // if (user == null) {
+    // user = new User();
+    // user.setUsername(userResource.getUsername());
+    // user.setPassword(BCrypt.hashpw(userResource.getPassword(),
+    // BCrypt.gensalt()));
+    // user.setCompany(entityManager.find(Company.class,
+    // userResource.getCompanyId()));
+    // user = userService.save(user);
+    // return ResponseEntity.ok(user);
+    // } else {
+    // return ResponseEntity.notFound().build();
+    // }
+    // }
+
+    // @PostMapping("/user/update")
+    // public ResponseEntity<User> updateUser(@RequestBody UserResource
+    // userResource) {
+    // User user = userService.findByUsername(userResource.getUsername());
+    // if (user != null) {
+    // user.setUsername(userResource.getUsername());
+    // user.setPassword(BCrypt.hashpw(userResource.getPassword(),
+    // BCrypt.gensalt()));
+    // user.setCompany(entityManager.find(Company.class,
+    // userResource.getCompanyId()));
+    // user = userService.save(user);
+    // return ResponseEntity.ok(user);
+    // } else {
+    // return ResponseEntity.notFound().build();
+    // }
+    // }
 }

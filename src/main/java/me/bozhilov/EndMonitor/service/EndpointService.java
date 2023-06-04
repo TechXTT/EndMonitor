@@ -14,4 +14,8 @@ public interface EndpointService {
 
     Endpoint save(EndpointResource endpointResource);
 
+    Endpoint update(EndpointResource endpointResource, Long id);
+
+    void deleteById(Long id);
+
 }

@@ -1,6 +1,7 @@
 package me.bozhilov.EndMonitor.service.impl;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.stereotype.Service;
 
@@ -28,8 +29,8 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public UserResource findById(Long id) {
-        return userMapper.toUserResource(userRepository.findById(id).orElse(null));
+    public Optional<UserResource> findById(Long id) {
+        return Optional.ofNullable(userMapper.toUserResource(userRepository.findById(id).orElse(null)));
     }
 
     @Override
@@ -43,5 +44,17 @@ public class UserServiceImpl implements UserService {
                                     "Company with name " + user.getCompany().getName() + " not found");
                         });
         return userRepository.save(user);
+    }
+
+    @Override
+    public User update(UserResource userResource, Long id) {
+        User user = userMapper.fromUserResource(userResource);
+        user.setId(id);
+        return userRepository.save(user);
+    }
+
+    @Override
+    public void deleteById(Long id) {
+        userRepository.deleteById(id);
     }
 }
