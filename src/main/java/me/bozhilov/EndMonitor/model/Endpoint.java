@@ -26,7 +26,7 @@ public class Endpoint {
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
-    private HttpMethod httpMethod;
+    private HttpMethod method;
 
     @OneToMany(mappedBy = "endpoint")
     private List<EndpointTest> endpointTests;

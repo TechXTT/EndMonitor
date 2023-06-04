@@ -8,10 +8,10 @@ import org.mapstruct.factory.Mappers;
 import me.bozhilov.EndMonitor.controller.resources.CompanyResource;
 import me.bozhilov.EndMonitor.model.Company;
 
-@Mapper
+@Mapper(uses = { UserMapper.class, APIMapper.class })
 public interface CompanyMapper {
 
-    CompanyMapper companyMapper = Mappers.getMapper(CompanyMapper.class);
+    CompanyMapper COMPANY_MAPPER = Mappers.getMapper(CompanyMapper.class);
 
     Company fromCompanyResource(CompanyResource companyResource);
 

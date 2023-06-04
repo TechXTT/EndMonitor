@@ -14,10 +14,10 @@ public interface LogMapper {
 
     LogMapper logMapper = Mappers.getMapper(LogMapper.class);
 
-    @Mapping(target = "endpointTest.id", source = "logResource.endpointTest")
+    @Mapping(target = "endpointTest.id", source = "logResource.endpointTestId")
     Log fromLogResource(LogResource logResource);
 
-    @Mapping(target = "endpointTest", source = "log.endpointTest.id")
+    @Mapping(target = "endpointTestId", source = "log.endpointTest.id")
     LogResource toLogResource(Log log);
 
     List<LogResource> toLogResourceList(List<Log> logs);

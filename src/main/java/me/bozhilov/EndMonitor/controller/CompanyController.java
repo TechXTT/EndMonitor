@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
 
+import lombok.RequiredArgsConstructor;
 import me.bozhilov.EndMonitor.controller.resources.CompanyResource;
 import me.bozhilov.EndMonitor.model.Company;
 import me.bozhilov.EndMonitor.service.CompanyService;
@@ -17,6 +18,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
 @RestController
+@RequiredArgsConstructor
 public class CompanyController {
 
     @Autowired

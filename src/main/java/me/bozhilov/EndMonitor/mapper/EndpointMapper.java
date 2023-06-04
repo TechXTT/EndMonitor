@@ -9,15 +9,15 @@ import org.mapstruct.factory.Mappers;
 import me.bozhilov.EndMonitor.controller.resources.EndpointResource;
 import me.bozhilov.EndMonitor.model.Endpoint;
 
-@Mapper
+@Mapper(uses = { EndpointTestMapper.class })
 public interface EndpointMapper {
 
     EndpointMapper endpointMapper = Mappers.getMapper(EndpointMapper.class);
 
-    @Mapping(target = "api.id", source = "endpointResource.api")
+    @Mapping(target = "api.id", source = "endpointResource.apiId")
     Endpoint fromEndpointResource(EndpointResource endpointResource);
 
-    @Mapping(target = "api", source = "endpoint.api.id")
+    @Mapping(target = "apiId", source = "endpoint.api.id")
     EndpointResource toEndpointResource(Endpoint endpoint);
 
     List<EndpointResource> toEndpointResourceList(List<Endpoint> endpoints);

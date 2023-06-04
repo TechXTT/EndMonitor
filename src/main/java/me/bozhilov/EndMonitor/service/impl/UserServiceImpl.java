@@ -14,7 +14,7 @@ import me.bozhilov.EndMonitor.service.CompanyService;
 import me.bozhilov.EndMonitor.service.UserService;
 
 import static me.bozhilov.EndMonitor.mapper.UserMapper.userMapper;
-import static me.bozhilov.EndMonitor.mapper.CompanyMapper.companyMapper;
+import static me.bozhilov.EndMonitor.mapper.CompanyMapper.COMPANY_MAPPER;
 
 @Service
 @RequiredArgsConstructor
@@ -38,7 +38,7 @@ public class UserServiceImpl implements UserService {
         User user = userMapper.fromUserResource(userResource);
         companyService.findByName(user.getCompany().getName())
                 .ifPresentOrElse(
-                        company -> user.setCompany(companyMapper.fromCompanyResource(company)),
+                        company -> user.setCompany(COMPANY_MAPPER.fromCompanyResource(company)),
                         () -> {
                             throw new EntityNotFoundException(
                                     "Company with name " + user.getCompany().getName() + " not found");

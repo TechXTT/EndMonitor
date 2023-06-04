@@ -11,7 +11,7 @@ import me.bozhilov.EndMonitor.service.APIService;
 import me.bozhilov.EndMonitor.service.CompanyService;
 
 import static me.bozhilov.EndMonitor.mapper.APIMapper.apiMapper;
-import static me.bozhilov.EndMonitor.mapper.CompanyMapper.companyMapper;
+import static me.bozhilov.EndMonitor.mapper.CompanyMapper.COMPANY_MAPPER;
 
 import java.util.List;
 import java.util.Optional;
@@ -38,7 +38,7 @@ public class APIServiceImpl implements APIService {
         API api = apiMapper.fromAPIResource(apiResource);
         companyService.findByName(api.getCompany().getName())
                 .ifPresentOrElse(
-                        company -> api.setCompany(companyMapper.fromCompanyResource(company)),
+                        company -> api.setCompany(COMPANY_MAPPER.fromCompanyResource(company)),
                         () -> {
                             throw new EntityNotFoundException(
                                     "Company with name " + api.getCompany().getName() + " not found");

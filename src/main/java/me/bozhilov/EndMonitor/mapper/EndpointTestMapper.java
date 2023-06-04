@@ -9,15 +9,15 @@ import org.mapstruct.factory.Mappers;
 import me.bozhilov.EndMonitor.controller.resources.EndpointTestResource;
 import me.bozhilov.EndMonitor.model.EndpointTest;
 
-@Mapper
+@Mapper(uses = { LogMapper.class })
 public interface EndpointTestMapper {
 
     EndpointTestMapper endpointTestMapper = Mappers.getMapper(EndpointTestMapper.class);
 
-    @Mapping(target = "endpoint.id", source = "endpointTestResource.endpoint")
+    @Mapping(target = "endpoint.id", source = "endpointTestResource.endpointId")
     EndpointTest fromEndpointTestResource(EndpointTestResource endpointTestResource);
 
-    @Mapping(target = "endpoint", source = "endpointTest.endpoint.id")
+    @Mapping(target = "endpointId", source = "endpointTest.endpoint.id")
     EndpointTestResource toEndpointTestResource(EndpointTest endpointTest);
 
     List<EndpointTestResource> toEndpointTestResourceList(List<EndpointTest> endpointTests);

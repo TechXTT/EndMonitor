@@ -11,7 +11,7 @@ import me.bozhilov.EndMonitor.model.Company;
 import me.bozhilov.EndMonitor.repository.CompanyRepository;
 import me.bozhilov.EndMonitor.service.CompanyService;
 
-import static me.bozhilov.EndMonitor.mapper.CompanyMapper.companyMapper;
+import static me.bozhilov.EndMonitor.mapper.CompanyMapper.COMPANY_MAPPER;
 
 @Service
 @RequiredArgsConstructor
@@ -21,28 +21,29 @@ public class CompanyServiceImpl implements CompanyService {
 
     @Override
     public List<CompanyResource> findAll() {
-        return companyMapper.toCompanyResourceList(companyRepository.findAll());
+        return COMPANY_MAPPER.toCompanyResourceList(companyRepository.findAll());
     }
 
     @Override
     public Optional<CompanyResource> findById(Long id) {
-        return Optional.ofNullable(companyMapper.toCompanyResource(companyRepository.findById(id).orElse(null)));
+        return Optional.ofNullable(COMPANY_MAPPER.toCompanyResource(companyRepository.findById(id).orElse(null)));
     }
 
     @Override
     public Optional<CompanyResource> findByName(String name) {
-        return Optional.ofNullable(companyMapper.toCompanyResource(companyRepository.findByName(name).orElse(null)));
+        return Optional.ofNullable(
+                COMPANY_MAPPER.toCompanyResource(companyRepository.findByName(name).orElse(null)));
     }
 
     @Override
     public Company save(CompanyResource companyResource) {
-        Company company = companyMapper.fromCompanyResource(companyResource);
+        Company company = COMPANY_MAPPER.fromCompanyResource(companyResource);
         return companyRepository.save(company);
     }
 
     @Override
     public Company update(CompanyResource companyResource, Long id) {
-        Company company = companyMapper.fromCompanyResource(companyResource);
+        Company company = COMPANY_MAPPER.fromCompanyResource(companyResource);
         company.setId(id);
         return companyRepository.save(company);
     }

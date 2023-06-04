@@ -9,7 +9,7 @@ import org.mapstruct.factory.Mappers;
 import me.bozhilov.EndMonitor.controller.resources.APIResource;
 import me.bozhilov.EndMonitor.model.API;
 
-@Mapper
+@Mapper(uses = { EndpointMapper.class })
 public interface APIMapper {
 
     APIMapper apiMapper = Mappers.getMapper(APIMapper.class);
