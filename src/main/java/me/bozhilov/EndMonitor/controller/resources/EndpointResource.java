@@ -1,5 +1,7 @@
 package me.bozhilov.EndMonitor.controller.resources;
 
+import java.util.List;
+
 import lombok.Data;
 import me.bozhilov.EndMonitor.model.HttpMethod;
 
@@ -12,7 +14,9 @@ public class EndpointResource {
 
     private String description;
 
-    private String apiId;
+    private Long apiId;
 
     private HttpMethod method;
+
+    private List<EndpointTestResource> endpointTests;
 }

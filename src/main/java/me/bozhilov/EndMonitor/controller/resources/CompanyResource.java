@@ -5,15 +5,16 @@ import java.util.List;
 import lombok.Data;
 
 @Data
-public class APIResource {
+public class CompanyResource {
 
     private Long id;
 
-    private String route;
+    private String name;
 
     private String description;
 
-    private String company;
+    private List<UserResource> users;
 
-    private List<EndpointResource> endpoints;
+    private List<APIResource> apis;
+
 }

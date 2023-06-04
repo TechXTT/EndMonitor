@@ -1,5 +1,7 @@
 package me.bozhilov.EndMonitor.model;
 
+import java.util.List;
+
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import jakarta.persistence.*;
@@ -34,5 +36,5 @@ public class EndpointTest {
     private String responseStatusCode;
 
     @OneToMany(mappedBy = "endpointTest")
-    private java.util.List<Log> logs;
+    private List<Log> logs;
 }

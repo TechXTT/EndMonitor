@@ -7,7 +7,7 @@ public class LogResource {
 
     private Long id;
 
-    private String endpointTestId;
+    private Long endpointTestId;
 
     private String requestBody;
 

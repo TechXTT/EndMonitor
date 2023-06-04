@@ -1,5 +1,7 @@
 package me.bozhilov.EndMonitor.controller.resources;
 
+import java.util.List;
+
 import lombok.Data;
 
 @Data
@@ -9,7 +11,7 @@ public class EndpointTestResource {
 
     private String description;
 
-    private String endpointId;
+    private Long endpointId;
 
     private String requestBody;
 
@@ -22,4 +24,6 @@ public class EndpointTestResource {
     private String responseHeaders;
 
     private String responseStatusCode;
+
+    private List<LogResource> logs;
 }
