@@ -3,17 +3,18 @@ package me.bozhilov.EndMonitor.service;
 import java.util.List;
 import java.util.Optional;
 
+import me.bozhilov.EndMonitor.controller.resources.CompanyResource;
 import me.bozhilov.EndMonitor.model.Company;
 
 public interface CompanyService {
 
-    List<Company> findAll();
+    List<CompanyResource> findAll();
 
-    Optional<Company> findById(Long id);
+    Optional<CompanyResource> findById(Long id);
 
-    Optional<Company> findByName(String name);
+    Optional<CompanyResource> findByName(String name);
 
-    Company save(Company company);
+    Company save(CompanyResource companyResource);
 
     void deleteById(Long id);
 }
