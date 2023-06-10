@@ -15,6 +15,7 @@ import me.bozhilov.EndMonitor.controller.resources.CompanyResource;
 import me.bozhilov.EndMonitor.model.Company;
 import me.bozhilov.EndMonitor.service.CompanyService;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
 @RestController
@@ -54,9 +55,8 @@ public class CompanyController {
         }
     }
 
-    @PostMapping(value = "/company/{id}", consumes = "application/json", produces = "application/json")
-    public ResponseEntity<Company> updateCompany(@RequestBody CompanyResource companyResource,
-            @PathVariable Long id) {
+    @PutMapping(value = "/company/{id}", consumes = "application/json", produces = "application/json")
+    public ResponseEntity<Company> updateCompany(@RequestBody CompanyResource companyResource, @PathVariable Long id) {
         // pass CompanyResource and id to update method
         Company company = companyService.update(companyResource, id);
         if (company != null) {

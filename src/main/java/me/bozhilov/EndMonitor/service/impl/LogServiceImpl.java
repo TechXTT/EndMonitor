@@ -48,20 +48,6 @@ public class LogServiceImpl implements LogService {
     }
 
     @Override
-    public Log update(LogResource logResource, Long id) {
-        Log log = logMapper.fromLogResource(logResource);
-        log.setId(id);
-        endpointTestService.findById(log.getEndpointTest().getId())
-                .ifPresentOrElse(
-                        endpointTest -> log.setEndpointTest(endpointTestMapper.fromEndpointTestResource(endpointTest)),
-                        () -> {
-                            throw new EntityNotFoundException(
-                                    "EndpointTest with id " + log.getEndpointTest().getId() + " not found");
-                        });
-        return logRepository.save(log);
-    }
-
-    @Override
     public void deleteById(Long id) {
         logRepository.deleteById(id);
     }

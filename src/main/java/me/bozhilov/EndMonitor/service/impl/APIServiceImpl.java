@@ -49,8 +49,26 @@ public class APIServiceImpl implements APIService {
     @Override
     public API update(APIResource apiResource, Long id) {
         API api = apiMapper.fromAPIResource(apiResource);
-        api.setId(id);
-        return apiRepository.save(api);
+        API apiToUpdate = apiRepository.findById(id).orElse(null);
+        if (apiToUpdate == null) {
+            return null;
+        }
+        if (api.getRoute() != null) {
+            apiToUpdate.setRoute(api.getRoute());
+        }
+        if (api.getDescription() != null) {
+            apiToUpdate.setDescription(api.getDescription());
+        }
+        if (api.getCompany() != null) {
+            companyService.findByName(api.getCompany().getName())
+                    .ifPresentOrElse(
+                            company -> apiToUpdate.setCompany(COMPANY_MAPPER.fromCompanyResource(company)),
+                            () -> {
+                                throw new EntityNotFoundException(
+                                        "Company with name " + api.getCompany().getName() + " not found");
+                            });
+        }
+        return apiRepository.save(apiToUpdate);
     }
 
     @Override

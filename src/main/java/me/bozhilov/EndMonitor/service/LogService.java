@@ -14,8 +14,6 @@ public interface LogService {
 
     Log save(LogResource logResource);
 
-    Log update(LogResource logResource, Long id);
-
     void deleteById(Long id);
 
 }

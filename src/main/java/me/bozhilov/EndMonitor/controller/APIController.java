@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -52,9 +53,8 @@ public class APIController {
         }
     }
 
-    @PostMapping(value = "/api/{id}", consumes = "application/json", produces = "application/json")
+    @PutMapping(value = "/api/{id}", consumes = "application/json", produces = "application/json")
     public ResponseEntity<API> updateAPI(@RequestBody APIResource apiResource, @PathVariable Long id) {
-        // pass APIResource and id to update method
         API api = apiService.update(apiResource, id);
         if (api != null) {
             return ResponseEntity.ok(api);

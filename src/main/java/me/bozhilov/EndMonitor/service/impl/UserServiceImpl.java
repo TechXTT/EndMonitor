@@ -49,8 +49,29 @@ public class UserServiceImpl implements UserService {
     @Override
     public User update(UserResource userResource, Long id) {
         User user = userMapper.fromUserResource(userResource);
-        user.setId(id);
-        return userRepository.save(user);
+        User userToUpdate = userRepository.findById(id).orElse(null);
+        if (userToUpdate == null) {
+            return null;
+        }
+        if (user.getUsername() != null) {
+            userToUpdate.setUsername(user.getUsername());
+        }
+        if (user.getPassword() != null) {
+            userToUpdate.setPassword(user.getPassword());
+        }
+        if (user.getEmail() != null) {
+            userToUpdate.setEmail(user.getEmail());
+        }
+        if (user.getCompany() != null) {
+            companyService.findByName(user.getCompany().getName())
+                    .ifPresentOrElse(
+                            company -> userToUpdate.setCompany(COMPANY_MAPPER.fromCompanyResource(company)),
+                            () -> {
+                                throw new EntityNotFoundException(
+                                        "Company with name " + user.getCompany().getName() + " not found");
+                            });
+        }
+        return userRepository.save(userToUpdate);
     }
 
     @Override

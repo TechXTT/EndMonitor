@@ -49,15 +49,29 @@ public class EndpointServiceImpl implements EndpointService {
     @Override
     public Endpoint update(EndpointResource endpointResource, Long id) {
         Endpoint endpoint = endpointMapper.fromEndpointResource(endpointResource);
-        endpoint.setId(id);
-        apiService.findById(endpoint.getApi().getId())
-                .ifPresentOrElse(
-                        api -> endpoint.setApi(apiMapper.fromAPIResource(api)),
-                        () -> {
-                            throw new EntityNotFoundException(
-                                    "API with id " + endpoint.getApi().getId() + " not found");
-                        });
-        return endpointRepository.save(endpoint);
+        Endpoint endpointToUpdate = endpointRepository.findById(id).orElse(null);
+        if (endpointToUpdate == null) {
+            return null;
+        }
+        if (endpoint.getUrl() != null) {
+            endpointToUpdate.setUrl(endpoint.getUrl());
+        }
+        if (endpoint.getDescription() != null) {
+            endpointToUpdate.setDescription(endpoint.getDescription());
+        }
+        if (endpoint.getMethod() != null) {
+            endpointToUpdate.setMethod(endpoint.getMethod());
+        }
+        if (endpoint.getApi() != null) {
+            apiService.findById(endpoint.getApi().getId())
+                    .ifPresentOrElse(
+                            api -> endpointToUpdate.setApi(apiMapper.fromAPIResource(api)),
+                            () -> {
+                                throw new EntityNotFoundException(
+                                        "API with id " + endpoint.getApi().getId() + " not found");
+                            });
+        }
+        return endpointRepository.save(endpointToUpdate);
     }
 
     @Override

@@ -49,15 +49,41 @@ public class EndpointTestServiceImpl implements EndpointTestService {
     @Override
     public EndpointTest update(EndpointTestResource endpointTestResource, Long id) {
         EndpointTest endpointTest = endpointTestMapper.fromEndpointTestResource(endpointTestResource);
-        endpointTest.setId(id);
-        endpointService.findById(endpointTest.getEndpoint().getId())
-                .ifPresentOrElse(
-                        endpoint -> endpointTest.setEndpoint(endpointMapper.fromEndpointResource(endpoint)),
-                        () -> {
-                            throw new EntityNotFoundException(
-                                    "Endpoint with id " + endpointTest.getEndpoint().getId() + " not found");
-                        });
-        return endpointTestRepository.save(endpointTest);
+        EndpointTest endpointTestToUpdate = endpointTestRepository.findById(id).orElse(null);
+        if (endpointTestToUpdate == null) {
+            return null;
+        }
+        if (endpointTest.getDescription() != null) {
+            endpointTestToUpdate.setDescription(endpointTest.getDescription());
+        }
+        if (endpointTest.getRequestBody() != null) {
+            endpointTestToUpdate.setRequestBody(endpointTest.getRequestBody());
+        }
+        if (endpointTest.getRequestHeaders() != null) {
+            endpointTestToUpdate.setRequestHeaders(endpointTest.getRequestHeaders());
+        }
+        if (endpointTest.getRequestParams() != null) {
+            endpointTestToUpdate.setRequestParams(endpointTest.getRequestParams());
+        }
+        if (endpointTest.getResponseBody() != null) {
+            endpointTestToUpdate.setResponseBody(endpointTest.getResponseBody());
+        }
+        if (endpointTest.getResponseHeaders() != null) {
+            endpointTestToUpdate.setResponseHeaders(endpointTest.getResponseHeaders());
+        }
+        if (endpointTest.getResponseStatusCode() != null) {
+            endpointTestToUpdate.setResponseStatusCode(endpointTest.getResponseStatusCode());
+        }
+        if (endpointTest.getEndpoint() != null) {
+            endpointService.findById(endpointTest.getEndpoint().getId())
+                    .ifPresentOrElse(
+                            endpoint -> endpointTestToUpdate.setEndpoint(endpointMapper.fromEndpointResource(endpoint)),
+                            () -> {
+                                throw new EntityNotFoundException(
+                                        "Endpoint with id " + endpointTest.getEndpoint().getId() + " not found");
+                            });
+        }
+        return endpointTestRepository.save(endpointTestToUpdate);
     }
 
     @Override
