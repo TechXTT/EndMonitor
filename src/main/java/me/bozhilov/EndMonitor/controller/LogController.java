@@ -20,7 +20,7 @@ public class LogController {
     @Autowired
     private LogService logService;
 
-    @GetMapping("/logs")
+    @GetMapping("/v1/logs")
     public ResponseEntity<List<LogResource>> getAllLogs() {
         List<LogResource> logs = logService.findAll();
         if (logs.isEmpty()) {
@@ -30,7 +30,7 @@ public class LogController {
         }
     }
 
-    @GetMapping("/log/{id}")
+    @GetMapping("/v1/log/{id}")
     public ResponseEntity<LogResource> getLogById(@PathVariable Long id) {
         Optional<LogResource> log = logService.findById(id);
         if (log.isPresent()) {
@@ -40,7 +40,7 @@ public class LogController {
         }
     }
 
-    @DeleteMapping("/log/{id}")
+    @DeleteMapping("/v1/log/{id}")
     public ResponseEntity<Log> deleteLog(@PathVariable Long id) {
         Optional<LogResource> log = logService.findById(id);
         if (log.isPresent()) {

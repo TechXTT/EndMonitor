@@ -44,7 +44,7 @@ public class EndpointTestController {
         }
     }
 
-    @PostMapping(value = "/endpointtest", consumes = "application/json", produces = "application/json")
+    @PostMapping(value = "/v1/endpointtest", consumes = "application/json", produces = "application/json")
     public ResponseEntity<EndpointTest> createEndpointTest(@RequestBody EndpointTestResource endpointTestResource) {
         EndpointTest endpointTest = endpointTestService.save(endpointTestResource);
         if (endpointTest != null) {
@@ -54,7 +54,7 @@ public class EndpointTestController {
         }
     }
 
-    @PutMapping(value = "/endpointtest/{id}", consumes = "application/json", produces = "application/json")
+    @PutMapping(value = "/v1/endpointtest/{id}", consumes = "application/json", produces = "application/json")
     public ResponseEntity<EndpointTest> updateEndpointTest(@RequestBody EndpointTestResource endpointTestResource,
             @PathVariable Long id) {
         // pass EndpointTestResource and id to update method
@@ -66,7 +66,7 @@ public class EndpointTestController {
         }
     }
 
-    @DeleteMapping("/endpointtest/{id}")
+    @DeleteMapping("/v1/endpointtest/{id}")
     public ResponseEntity<EndpointTest> deleteEndpointTest(@PathVariable Long id) {
         Optional<EndpointTestResource> endpointTest = endpointTestService.findById(id);
         if (endpointTest.isPresent()) {

@@ -25,7 +25,7 @@ public class CompanyController {
     @Autowired
     private CompanyService companyService;
 
-    @GetMapping("/companies")
+    @GetMapping("/v1/companies")
     public ResponseEntity<List<CompanyResource>> getAllCompanies() {
         List<CompanyResource> companies = companyService.findAll();
         if (companies.isEmpty()) {
@@ -35,7 +35,7 @@ public class CompanyController {
         }
     }
 
-    @GetMapping("/company/{id}")
+    @GetMapping("/v1/company/{id}")
     public ResponseEntity<CompanyResource> getCompanyById(@PathVariable Long id) {
         Optional<CompanyResource> company = companyService.findById(id);
         if (company.isPresent()) {
@@ -45,7 +45,7 @@ public class CompanyController {
         }
     }
 
-    @PostMapping(value = "/company", consumes = "application/json", produces = "application/json")
+    @PostMapping(value = "/v1/company", consumes = "application/json", produces = "application/json")
     public ResponseEntity<Company> createCompany(@RequestBody CompanyResource companyResource) {
         Company company = companyService.save(companyResource);
         if (company != null) {
@@ -55,7 +55,7 @@ public class CompanyController {
         }
     }
 
-    @PutMapping(value = "/company/{id}", consumes = "application/json", produces = "application/json")
+    @PutMapping(value = "/v1/company/{id}", consumes = "application/json", produces = "application/json")
     public ResponseEntity<Company> updateCompany(@RequestBody CompanyResource companyResource, @PathVariable Long id) {
         // pass CompanyResource and id to update method
         Company company = companyService.update(companyResource, id);
@@ -66,7 +66,7 @@ public class CompanyController {
         }
     }
 
-    @DeleteMapping("/company/{id}")
+    @DeleteMapping("/v1/company/{id}")
     public ResponseEntity<Company> deleteCompany(@PathVariable Long id) {
         Optional<CompanyResource> companyResource = companyService.findById(id);
         if (companyResource.isPresent()) {

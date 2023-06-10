@@ -23,7 +23,7 @@ public class APIController {
     @Autowired
     private APIService apiService;
 
-    @GetMapping("/apis")
+    @GetMapping("/v1/apis")
     public ResponseEntity<List<APIResource>> getAllAPIs() {
         List<APIResource> apis = apiService.findAll();
         if (apis.isEmpty()) {
@@ -33,7 +33,7 @@ public class APIController {
         }
     }
 
-    @GetMapping("/api/{id}")
+    @GetMapping("/v1/api/{id}")
     public ResponseEntity<APIResource> getAPIById(@PathVariable Long id) {
         Optional<APIResource> api = apiService.findById(id);
         if (api.isPresent()) {
@@ -43,7 +43,7 @@ public class APIController {
         }
     }
 
-    @PostMapping(value = "/api", consumes = "application/json", produces = "application/json")
+    @PostMapping(value = "/v1/api", consumes = "application/json", produces = "application/json")
     public ResponseEntity<API> createAPI(@RequestBody APIResource apiResource) {
         API api = apiService.save(apiResource);
         if (api != null) {
@@ -53,7 +53,7 @@ public class APIController {
         }
     }
 
-    @PutMapping(value = "/api/{id}", consumes = "application/json", produces = "application/json")
+    @PutMapping(value = "/v1/api/{id}", consumes = "application/json", produces = "application/json")
     public ResponseEntity<API> updateAPI(@RequestBody APIResource apiResource, @PathVariable Long id) {
         API api = apiService.update(apiResource, id);
         if (api != null) {
@@ -63,7 +63,7 @@ public class APIController {
         }
     }
 
-    @DeleteMapping("/api/{id}")
+    @DeleteMapping("/v1/api/{id}")
     public ResponseEntity<API> deleteAPI(@PathVariable Long id) {
         Optional<APIResource> api = apiService.findById(id);
         if (api.isPresent()) {

@@ -23,7 +23,7 @@ public class EndpointController {
     @Autowired
     private EndpointService endpointService;
 
-    @GetMapping("/endpoints")
+    @GetMapping("/v1/endpoints")
     public ResponseEntity<List<EndpointResource>> getAllEndpoints() {
         List<EndpointResource> endpoints = endpointService.findAll();
         if (endpoints.isEmpty()) {
@@ -33,7 +33,7 @@ public class EndpointController {
         }
     }
 
-    @GetMapping("/endpoint/{id}")
+    @GetMapping("/v1/endpoint/{id}")
     public ResponseEntity<EndpointResource> getEndpointById(@PathVariable Long id) {
         Optional<EndpointResource> endpoint = endpointService.findById(id);
         if (endpoint.isPresent()) {
@@ -43,7 +43,7 @@ public class EndpointController {
         }
     }
 
-    @PostMapping(value = "/endpoint", consumes = "application/json", produces = "application/json")
+    @PostMapping(value = "/v1/endpoint", consumes = "application/json", produces = "application/json")
     public ResponseEntity<Endpoint> createEndpoint(@RequestBody EndpointResource endpointResource) {
         Endpoint endpoint = endpointService.save(endpointResource);
         if (endpoint != null) {
@@ -53,7 +53,7 @@ public class EndpointController {
         }
     }
 
-    @PutMapping(value = "/endpoint/{id}", consumes = "application/json", produces = "application/json")
+    @PutMapping(value = "/v1/endpoint/{id}", consumes = "application/json", produces = "application/json")
     public ResponseEntity<Endpoint> updateEndpoint(@RequestBody EndpointResource endpointResource,
             @PathVariable Long id) {
         Endpoint endpoint = endpointService.update(endpointResource, id);
@@ -64,7 +64,7 @@ public class EndpointController {
         }
     }
 
-    @DeleteMapping("/endpoint/{id}")
+    @DeleteMapping("/v1/endpoint/{id}")
     public ResponseEntity<Endpoint> deleteEndpoint(@PathVariable Long id) {
         Optional<EndpointResource> endpoint = endpointService.findById(id);
         if (endpoint.isPresent()) {

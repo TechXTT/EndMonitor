@@ -23,7 +23,7 @@ public class UserController {
     @Autowired
     private UserService userService;
 
-    @GetMapping("/users")
+    @GetMapping("/v1/users")
     public ResponseEntity<List<UserResource>> getAllUsers() {
         List<UserResource> users = userService.findAll();
         if (users.isEmpty()) {
@@ -33,7 +33,7 @@ public class UserController {
         }
     }
 
-    @GetMapping("/user/{id}")
+    @GetMapping("/v1/user/{id}")
     public ResponseEntity<UserResource> getUserById(@PathVariable Long id) {
         Optional<UserResource> userResource = userService.findById(id);
         if (userResource != null) {
@@ -43,7 +43,7 @@ public class UserController {
         }
     }
 
-    @PostMapping("/user")
+    @PostMapping("/v1/user")
     public ResponseEntity<User> createUser(@RequestBody UserResource userResource) {
         User user = userService.save(userResource);
         if (user != null) {
@@ -53,7 +53,7 @@ public class UserController {
         }
     }
 
-    @PutMapping("/user/{id}")
+    @PutMapping("/v1/user/{id}")
     public ResponseEntity<User> updateUser(@RequestBody UserResource userResource, @PathVariable Long id) {
         User user = userService.update(userResource, id);
         if (user != null) {
@@ -63,7 +63,7 @@ public class UserController {
         }
     }
 
-    @DeleteMapping("/user/{id}")
+    @DeleteMapping("/v1/user/{id}")
     public ResponseEntity<User> deleteUser(@PathVariable Long id) {
         Optional<UserResource> userResource = userService.findById(id);
         if (userResource != null) {
